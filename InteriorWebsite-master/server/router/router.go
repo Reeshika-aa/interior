@@ -26,18 +26,26 @@ func CreateUser(c *gin.Context) {
 		return
 	}
 
-	user := tables.User{
-		Fname:    values["fname"],
-		Lname:    values["lname"],
-		Email:    values["email"],
-		Password: values["password"],
+	var user tables.User
+
+	result := db.DB.Where("email = ?", values["email"]).First(&user)
+
+	if result.Error == gorm.ErrRecordNotFound {
+		user = tables.User{
+			Fname:    values["fname"],
+			Lname:    values["lname"],
+			Email:    values["email"],
+			Password: values["password"],
+		}
+		db.DB.Create(&user)
+		c.JSON(http.StatusAccepted, gin.H{
+			"email": user.Email,
+		})
+	} else {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Email already exist",
+		})
 	}
-
-	db.DB.Create(&user)
-
-	c.JSON(http.StatusAccepted, gin.H{
-		"email": user.Email,
-	})
 
 }
 
