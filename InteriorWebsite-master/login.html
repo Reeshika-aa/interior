@@ -164,7 +164,7 @@
 
         <body>
             <div class="form-wrapper">
-                <form id="registrationForm" onsubmit="validateForm(event)" style="width: 500px;">
+                <form id="registrationForm"  style="width: 500px;">
                     <label for="firstName">First Name:</label>
                     <input type="text" id="firstName" name="firstName" required pattern="[A-Za-z]{3,}" placeholder=" (Minimum 3 letters)">
                     <!-- Minimum 3 letters required -->
@@ -189,7 +189,7 @@
                     <input type="password" id="confirmPassword" name="confirmPassword" required pattern=".{6,}" placeholder=" (Minimum 6 characters)">
                     <!-- Minimum 6 characters required -->
 
-                    <button type="submit">Register</button>
+                    <button type="button" onclick="validateForm(event)">Register</button>
                     <br>
                     <br>
 
@@ -312,12 +312,13 @@
             <script src="js/app.js"></script>
 
             <script>
-                function validateForm(event) {
+                async function validateForm(event){
                     // Validate other form fields if needed
                     var firstName = document.getElementById("firstName").value;
                     var lastName = document.getElementById("lastName").value;
                     var email = document.getElementById("email").value;
-
+                    var password = document.getElementById("password").value;
+        
                     if (firstName.length < 3 || lastName.length < 3) {
                         document.getElementById("errorMessage").innerHTML = "First Name and Last Name must be at least 3 characters.";
                         event.preventDefault();
@@ -329,13 +330,37 @@
                         event.preventDefault();
                         return false;
                     }
-
-                    // Additional validations if needed
-
-                    // Show success alert
-                    alert("Registration completed successfully!");
-
-                    return true;
+        
+        
+                    try{
+                     await fetch("http://localhost:8080/register",
+                        {
+                            method : 'post',
+                            headers: new Headers({'content-type': 'application/json'}),
+                            body : JSON.stringify({
+                                "fname" : firstName,
+                                "lname " : lastName,
+                                "email" : email,
+                                "password" : password
+                            })
+                        }).then((response) => response.json()).then((json) => {
+                            if (json["email"] != undefined) {
+                                console.log(json['email'])
+                                alert("Registration Completed")
+                                return true
+                            } else  {
+                                alert(json['error'])
+                                return false
+                            }
+                        })
+                    
+                     }
+                     catch(err){
+                        console.error(err);
+                        return false
+                     }
+          
+                    return true
                 }
 
                 function validateEmail(email) {
@@ -346,7 +371,7 @@
 
                 function redirectToLogin() {
                     // Implement redirection logic to the login page
-                    alert("Redirecting to Login Page...");
+                    
                 }
             </script>
         </body>
