@@ -153,7 +153,7 @@
     <!-- Header Background Parallax Image -->
     <div id="about_bg">
         <div class="head-title">
-            <h2>Registration</h2>
+            <h2>Login</h2>
         </div>
     </div>
     <!-- End Header Background Parallax Image -->
@@ -163,41 +163,25 @@
 
 
         <body>
+            <!-- Login Form -->
             <div class="form-wrapper">
-                <form id="registrationForm"  style="width: 500px;">
-                    <label for="firstName">First Name:</label>
-                    <input type="text" id="firstName" name="firstName" required pattern="[A-Za-z]{3,}" placeholder=" (Minimum 3 letters)">
-                    <!-- Minimum 3 letters required -->
-
-                    <label for="lastName">Last Name:</label>
-                    <input type="text" id="lastName" name="lastName" required pattern="[A-Za-z]{3,}" placeholder=" (Minimum 3 letters)">
-                    <!-- Minimum 3 letters required -->
-
-                    <label for="phone">Phone:</label>
-                    <input type="text" id="phone" name="phone" pattern="\+91[0-9]{10}" placeholder=" (+91xxxxxxxxxx)">
-                    <!-- Indian phone number format -->
-
+                <form id="loginForm" style="width: 500px;">
                     <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|org|in|edu)" placeholder="xxxxxxx123@xxxxx.xxx">
-                    <!-- Valid email pattern -->
+                    <input type="email" id="email" name="email" required placeholder="xxxxxxx123@xxxxx.xxx">
 
                     <label for="password">Password:</label>
-                    <input type="password" id="password" name="password" required pattern=".{6,}" placeholder=" (Minimum 6 characters)">
-                    <!-- Minimum 6 characters required -->
+                    <input type="password" id="password" name="password" required placeholder=" (Minimum 6 characters)">
 
-                    <label for="confirmPassword">Confirm Password:</label>
-                    <input type="password" id="confirmPassword" name="confirmPassword" required pattern=".{6,}" placeholder=" (Minimum 6 characters)">
-                    <!-- Minimum 6 characters required -->
-
-                    <button type="button" onclick="validateForm(event)">Register</button>
+                    <button type="button" onclick="validateLoginForm(event)">Login</button>
                     <br>
                     <br>
 
-                    <button type="button" onclick="redirectToLogin()">Already Registered? Login</button>
+                    <button type="button" onclick="redirectToRegistration()">Not Registered? Register</button>
 
-                    <div class="error-message" id="errorMessage"></div>
+                    <div class="error-message" id="loginErrorMessage"></div>
                 </form>
             </div>
+
 
 
 
@@ -312,68 +296,59 @@
             <script src="js/app.js"></script>
 
             <script>
-                async function validateForm(event){
+                async function validateLoginForm(event) {
                     // Validate other form fields if needed
-                    var firstName = document.getElementById("firstName").value;
-                    var lastName = document.getElementById("lastName").value;
                     var email = document.getElementById("email").value;
                     var password = document.getElementById("password").value;
-        
-                    if (firstName.length < 3 || lastName.length < 3) {
-                        document.getElementById("errorMessage").innerHTML = "First Name and Last Name must be at least 3 characters.";
+
+                    if (!validateEmail(email)) {
+                        document.getElementById("loginErrorMessage").innerHTML = "Invalid email address.";
                         event.preventDefault();
                         return false;
                     }
 
-                    if (!validateEmail(email)) {
-                        document.getElementById("errorMessage").innerHTML = "Invalid email address.";
+                    if (password.length < 6) {
+                        document.getElementById("loginErrorMessage").innerHTML = "Password must be at least 6 characters.";
                         event.preventDefault();
                         return false;
                     }
-        
-        
-                    try{
-                     await fetch("http://localhost:8080/register",
-                        {
-                            method : 'post',
-                            headers: new Headers({'content-type': 'application/json'}),
-                            body : JSON.stringify({
-                                "fname" : firstName,
-                                "lname " : lastName,
-                                "email" : email,
-                                "password" : password
+
+                    try {
+                        await fetch("http://localhost:8080/login", {
+                            method: 'post',
+                            headers: new Headers({
+                                'content-type': 'application/json'
+                            }),
+                            body: JSON.stringify({
+                                "email": email,
+                                "password": password
                             })
                         }).then((response) => response.json()).then((json) => {
                             if (json["email"] != undefined) {
                                 console.log(json['email'])
-                                alert("Registration Completed")
-                                return true
-                            } else  {
-                                alert(json['error'])
-                                return false
+                                alert("Login Successful");
+                                window.location = "login.html"
+                                return true;
+                            } else {
+                                alert(json['error']);
+                                return false;
                             }
                         })
-                    
-                     }
-                     catch(err){
+
+                    } catch (err) {
                         console.error(err);
-                        return false
-                     }
-          
-                    return true
+                        return false;
+                    }
+
+                    return true;
                 }
 
-                function validateEmail(email) {
-                    // Regular expression for validating an Email
-                    var regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|org|in|edu)$/;
-                    return regex.test(email);
-                }
-
-                function redirectToLogin() {
-                    // Implement redirection logic to the login page
-                    
+                function redirectToRegistration() {
+                    // Implement redirection logic to the registration page
+                    window.location.href = "register.html";
                 }
             </script>
+
         </body>
 
 </html>

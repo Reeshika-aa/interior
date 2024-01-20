@@ -7,7 +7,7 @@ type User struct {
 	Fname    string
 	Lname    string
 	Email    string
-	Phone    int
+	Phone    string
 	Password string
 }
 
