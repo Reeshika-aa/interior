@@ -36,6 +36,7 @@ func CreateUser(c *gin.Context) {
 			Lname:    values["lname"],
 			Email:    values["email"],
 			Password: values["password"],
+			Phone:    values["phone"],
 		}
 		db.DB.Create(&user)
 		c.JSON(http.StatusAccepted, gin.H{

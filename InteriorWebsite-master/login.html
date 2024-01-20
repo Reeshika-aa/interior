@@ -318,6 +318,7 @@
                     var lastName = document.getElementById("lastName").value;
                     var email = document.getElementById("email").value;
                     var password = document.getElementById("password").value;
+                    var phone = document.getElementById("phone").value
         
                     if (firstName.length < 3 || lastName.length < 3) {
                         document.getElementById("errorMessage").innerHTML = "First Name and Last Name must be at least 3 characters.";
@@ -341,7 +342,8 @@
                                 "fname" : firstName,
                                 "lname " : lastName,
                                 "email" : email,
-                                "password" : password
+                                "password" : password,
+                                "phone":phone,
                             })
                         }).then((response) => response.json()).then((json) => {
                             if (json["email"] != undefined) {
