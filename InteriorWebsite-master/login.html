@@ -327,6 +327,7 @@
                             if (json["msg"] != undefined) {
                                 console.log(json['msg'])
                                 alert("Login Successful");
+                                document.cookie = json["email"];
                                 window.location = "index.html"
                                 return true;
                             } else {

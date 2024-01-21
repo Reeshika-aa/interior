@@ -85,7 +85,7 @@
                     <li><a href="about.html">About</a></li>
                     <li class="active"><a href="resident.html">Services</a></li>
                     <li><a href="contact.html">Contact</a></li>
-                    <li><a href="login.html">Login</a></li>
+                    <li><a  id="login" href="login.html">Login</a></li>
                     <li><a href="team.html">Team</a></li>
 
                 </ul>
@@ -125,7 +125,7 @@
                         to reshape lives."</p>
                     <div class="space-bottom-2x"></div>
 
-                    <img src="img/rimg.jpg" style="width: 1150px; alt=" ">
+                    <img src="img/rimg.jpg" style="width: 1150px"; alt = "">
                     <p>.</p>
 
 
@@ -141,7 +141,7 @@
                     <div class="space-bottom-2x"></div>
                     <!--<a href="#" class="btn gold-btn">Read More</a>-->
 
-                    <img src="img/oimg.jpg" style="width: 1150px; alt=" ">
+                    <img src="img/oimg.jpg" style="width: 1150px"; alt=" ">
                     <p>.</p>
                 </div>
 
@@ -223,6 +223,16 @@
         </div>
         <!-- End Footer -->
 
+
+        <script>
+            window.onload = function(){
+                let x = document.cookie
+                if (x != ""){
+                    console.log(x)
+                    document.getElementById("login").style.display = "none"
+                }
+            }
+        </script>
         <!-- jQuery Plugins -->
         <script src="js/jquery-1.11.1.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
