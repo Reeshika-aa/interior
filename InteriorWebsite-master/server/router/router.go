@@ -66,7 +66,8 @@ func LoginUser(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusAccepted, gin.H{"msg": "Login succesfull"})
+	c.JSON(http.StatusAccepted, gin.H{"msg": "Login succesful",
+		"email": values["email"]})
 
 }
 
