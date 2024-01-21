@@ -93,6 +93,7 @@
                     <li><a href="contact.html">Contact</a></li>
                     <li><a id="login" href="login.html">Login</a></li>
                     <li><a href="team.html">Team</a></li>
+                    <li><a id="logout" href="" onclick="logout()">Logout</a></li>
                 </ul>
             </div>
         </div>
@@ -739,12 +740,34 @@
 
     <script>
         window.onload = function(){
-            let x = document.cookie
+            function getCookie(cname) {
+                let name = cname + "=";
+                let decodedCookie = decodeURIComponent(document.cookie);
+                let ca = decodedCookie.split(';');
+  for(let i = 0; i <ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+            let x = getCookie("email")
             if (x != ""){
                 console.log(x)
                 document.getElementById("login").style.display = "none"
+            } else
+            {
+                document.getElementById("logout").style.display = "none"
             }
         }
+
+       function logout(){
+        document.cookie = "email=;";
+       }
     </script>
 
     <!-- jQuery Plugins -->
