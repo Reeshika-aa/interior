@@ -174,7 +174,7 @@
                     <!-- Minimum 3 letters required -->
 
                     <label for="phone">Phone:</label>
-                    <input type="text" id="phone" name="phone" pattern="\+91[0-9]{10}" placeholder=" (+91xxxxxxxxxx)">
+                    <input type="text" id="phone" name="phone" pattern="[0-9]{10}" placeholder=" (xxxxxxxxxx)">
                     <!-- Indian phone number format -->
 
                     <label for="email">Email:</label>
@@ -319,6 +319,12 @@
                     var email = document.getElementById("email").value;
                     var password = document.getElementById("password").value;
                     var phone = document.getElementById("phone").value
+
+                    if (phone.length != 10){
+                        document.getElementById("errorMessage").innerHTML = "Phone number should be of 10 characters.";
+                        event.preventDefault();
+                        return false;
+                    }
         
                     if (firstName.length < 3 || lastName.length < 3) {
                         document.getElementById("errorMessage").innerHTML = "First Name and Last Name must be at least 3 characters.";
@@ -340,7 +346,7 @@
                             headers: new Headers({'content-type': 'application/json'}),
                             body : JSON.stringify({
                                 "fname" : firstName,
-                                "lname " : lastName,
+                                "lname" : lastName,
                                 "email" : email,
                                 "password" : password,
                                 "phone":phone,
