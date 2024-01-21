@@ -324,10 +324,10 @@
                                 "password": password
                             })
                         }).then((response) => response.json()).then((json) => {
-                            if (json["email"] != undefined) {
-                                console.log(json['email'])
+                            if (json["msg"] != undefined) {
+                                console.log(json['msg'])
                                 alert("Login Successful");
-                                window.location = "login.html"
+                                window.location = "index.html"
                                 return true;
                             } else {
                                 alert(json['error']);
@@ -343,6 +343,12 @@
                     return true;
                 }
 
+
+                function validateEmail(email) {
+                    // Regular expression for validating an Email
+                    var regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|org|in|edu)$/;
+                    return regex.test(email);
+                }
                 function redirectToRegistration() {
                     // Implement redirection logic to the registration page
                     window.location.href = "register.html";
